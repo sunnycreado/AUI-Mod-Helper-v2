@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF8">
+    <title>User Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>User Report Generator</h1>
+    <input type="text" id="userIdInput" placeholder="Enter User ID">
+    <button onclick="getUserInfo()">Get Manual Report</button>
+    <button disabled>Future Button 1</button>
+    <button disabled>Future Button 2</button>
+    <textarea id="reportBox" rows="10" cols="50" placeholder="Report will appear here..."></textarea>
+    <button onclick="clearText()">Clear Text</button>
+
+    <div id="popupForm" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <label for="offence">Offence:</label>
+            <input type="text" id="offence" name="offence"><br>
+            <label for="action">Action:</label>
+            <input type="text" id="action" name="action"><br>
+            <label for="advice">Advice:</label>
+            <input type="text" id="advice" name="advice"><br>
+            <label for="rm">RM:</label>
+            <input type="text" id="rm" name="rm"><br>
+            <button onclick="submitReport()">Submit Report</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
