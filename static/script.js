@@ -74,10 +74,13 @@ window.onclick = function(event) {
 }
 
 function copyText() {
-    var text = document.getElementById("reportBox");
-    text.select();
-    document.execCommand("copy");
-    alert("Copied the text: " + text.value);
+    var text = document.getElementById("reportBox").value; // Get the value of the text area
+    navigator.clipboard.writeText(text).then(function() {
+        alert("Copied the text: " + text);
+    }, function(err) {
+        console.error('Could not copy text: ', err);
+        alert("Failed to copy text.");
+    });
 }
 
 document.getElementById('getManualReportButton').addEventListener('click', function() {
