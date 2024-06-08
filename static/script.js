@@ -3,12 +3,19 @@ function getUserInfo() {
     var modal = document.getElementById("popupForm");
     var span = document.getElementsByClassName("close")[0];
 
+    // Clear previous data in the popup form fields
+    document.getElementById("offence").value = "";
+    document.getElementById("action").value = "";
+    document.getElementById("advice").value = "";
+    document.getElementById("rm").value = "";
+
     // Fetch user information to validate existence and get username
     fetch(`/userinfo/${userId}`)
         .then(response => response.json())
         .then(data => {
             if (data.username) {  // Check if username exists in the response
                 window.currentUserData = data; // Store user data globally if valid
+                showPopup(); // Show popup only if data is successfully fetched
             } else {
                 alert(data.message); // Alert the user if no valid data found
             }
@@ -17,19 +24,6 @@ function getUserInfo() {
             console.error('Error:', error);
             alert('Failed to fetch user data.');
         });
-
-    // Display the modal for entering report details if user data is valid
-    if (window.currentUserData) {
-        modal.style.display = "block";
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    }
 }
 
 function submitReport() {
@@ -44,7 +38,7 @@ function submitReport() {
     var rmFormatted = rmInput.split(/\s+/).filter(Boolean).map(id => `<@${id.trim()}>`).join(' ');
 
     // Start constructing the report string with user details
-    var report = `${userId}\n${username}\n<@${username}>\n`;
+    var report = `${userId}\n${username}\n<@${userId}>\n`;
 
     // Conditionally add other details if they are filled
     if (offence.trim()) report += `\n- Offence: ${offence}`;
@@ -78,3 +72,14 @@ window.onclick = function(event) {
         modal.style.display = 'none';
     }
 }
+
+function copyText() {
+    var text = document.getElementById("reportBox");
+    text.select();
+    document.execCommand("copy");
+    alert("Copied the text: " + text.value);
+}
+
+document.getElementById('getManualReportButton').addEventListener('click', function() {
+    document.getElementById('reportBox').value = ''; // Assuming 'reportBox' is the ID of your text input or textarea
+});
