@@ -1,5 +1,116 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, sans-serif; /* Improves font readability */
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    color: #333; /* Dark grey color for the title */
+    margin-top: 20px; /* Adds space above the title */
+    font-size: 1.5rem; /* Responsive font size */
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+input[type="text"], textarea {
+    width: 100%; /* Makes text fields take full width of the container */
+    margin: 10px 0; /* Adds vertical spacing */
+    padding: 10px; /* Padding for better touch interaction */
+    font-size: 1rem; /* Responsive font size */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+button {
+    background-color: #4CAF50; /* Green background for buttons */
+    color: white; /* White text color */
+    border: none; /* Removes border */
+    padding: 12px 20px; /* Padding for easier clicking */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem; /* Responsive font size */
+    margin: 10px auto; /* Center buttons */
+    display: block; /* Make buttons block to take full width */
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners for buttons */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+button:hover {
+    background-color: #45a049; /* Darker shade of green on hover */
+}
+
+button:disabled {
+    background-color: #ccc; /* Grey out disabled buttons */
+    color: #666;
+}
+
+textarea {
+    height: 150px; /* Increases the default height of the textarea */
+}
+
+.footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.875rem; /* Responsive font size */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.25rem; /* Adjust font size for small devices */
+    }
+
+    input[type="text"], textarea {
+        width: 100%; /* Full width for better use of space */
+        font-size: 1.125rem; /* Adjust font size for small devices */
+        padding: 12px; /* Increase padding for better touch interaction */
+    }
+
+    button {
+        width: 100%; /* Full width to make buttons easier to press */
+        padding: 15px; /* Adequate padding */
+        font-size: 1.125rem; /* Readable font size */
+    }
+
+    .modal-content {
+        width: 95%; /* Full width for modal on small screens */
+    }
+}
+
 .modal {
-    display: none;
+    display: none; /* Ensures it doesn't show by default */
     position: fixed;
     z-index: 1;
     left: 0;
@@ -7,16 +118,17 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.4); /* Dimmed background */
 }
 
 .modal-content {
+    position: relative;
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 80%; /* Responsive width */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 }
 
 .close {
@@ -29,6 +141,5 @@
 .close:hover,
 .close:focus {
     color: black;
-    text-decoration: none;
     cursor: pointer;
 }

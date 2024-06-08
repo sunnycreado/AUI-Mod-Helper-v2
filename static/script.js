@@ -59,3 +59,22 @@ function submitReport() {
 function clearText() {
     document.getElementById("reportBox").value = "";
 }
+
+function showPopup() {
+    var modal = document.getElementById('popupForm');
+    modal.style.display = 'block';
+}
+
+// Function to close the popup
+function closePopup() {
+    var modal = document.getElementById('popupForm');
+    modal.style.display = 'none';
+}
+
+// Close popup when user clicks outside of it
+window.onclick = function(event) {
+    var modal = document.getElementById('popupForm');
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+}

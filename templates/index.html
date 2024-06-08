@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF8">
-    <title>User Report</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>AUI Mod Helper</title>
 </head>
 <body>
-    <h1>User Report Generator</h1>
-    <input type="text" id="userIdInput" placeholder="Enter User ID">
-    <button onclick="getUserInfo()">Get Manual Report</button>
-    <button disabled>Future Button 1</button>
-    <button disabled>Future Button 2</button>
-    <textarea id="reportBox" rows="10" cols="50" placeholder="Report will appear here..."></textarea>
-    <button onclick="clearText()">Clear Text</button>
+    <div class="header">
+        <h1 style="text-align: center;">AUI Mod Helper</h1>
+    </div>
+    <div class="container">
+        <input type="text" id="userIdInput" placeholder="Enter User ID">
+        <button onclick="getUserInfo()">Get Manual Report</button>
+        <textarea id="reportBox" rows="10" cols="50" placeholder="Report will appear here..."></textarea>
+        <button onclick="clearText()">Clear Text</button>
+    </div>
 
     <div id="popupForm" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" onclick="closePopup()">&times;</span>
             <label for="offence">Offence:</label>
             <input type="text" id="offence" name="offence"><br>
             <label for="action">Action:</label>
@@ -28,6 +31,12 @@
             <button onclick="submitReport()">Submit Report</button>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>Created By: Spooky</p>
+        <p>Discord ID: 573023459907469324</p>
+        <p>For any issues contact via Discord</p>
+    </footer>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
