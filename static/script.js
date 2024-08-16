@@ -80,7 +80,7 @@ function submitReport() {
         if (advice.trim()) report += `\n- Advice: ${advice}`;
         if (note.trim()) report += `\n- Note: ${note}`;
         if (proofAdded) {
-            report += `\n- Proof: ${proof.trim() || 'Not specified'}`;
+            report += `\n- Proof: ${proof.trim() || ''}`;
         }
         if (rmFormatted.trim()) report += `\n- RM: ${rmFormatted}`;
 
@@ -135,10 +135,6 @@ function copyText() {
 function clearUserId() {
     document.getElementById("userIdInput").value = "";
 }
-
-document.getElementById('getManualReportButton').addEventListener('click', function() {
-    document.getElementById('reportBox').value = ''; // Assuming 'reportBox' is the ID of your text input or textarea
-});
 
 // Event listener for when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
