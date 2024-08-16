@@ -68,8 +68,8 @@ function submitReport() {
         if (action.trim()) report += `\n- Action: ${action}`;
         if (advice.trim()) report += `\n- Advice: ${advice}`;
         if (note.trim()) report += `\n- Note: ${note}`;
-        if (proofAdded) {
-            report += `\n- Proof: ${proof.trim() || 'Not specified'}`;
+        if (proofAdded && proof.trim()) {
+            report += `\n- Proof: ${proof.trim()}`;
         }
         if (rmFormatted.trim()) report += `\n- RM: ${rmFormatted}`;
 

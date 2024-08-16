@@ -50,9 +50,9 @@
             <label for="note">Note:</label>
             <textarea id="note" name="note" placeholder="Enter Note (Optional)"></textarea><br>
 
-            <label for="proof">Proof:</label>
             <div id="proofSection">
-                <textarea id="proofInput" name="proof" placeholder="Enter proof details"></textarea>
+                <button type="button" onclick="toggleProofInput()">Add Proof</button>
+                <textarea id="proofInput" name="proof" placeholder="Enter proof details" style="display: none;"></textarea>
             </div>
 
             <label for="rm">RM:</label>
