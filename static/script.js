@@ -13,7 +13,7 @@ function getUserInfo() {
     document.getElementById("rm").value = "";
     document.getElementById("reportedBy").value = "";
     document.getElementById("note").value = "";
-    document.getElementById("proofInput").value = "";
+    document.getElementById("proof").value = "";
 
     // Fetch user information to validate existence and get username
     fetch(`/userinfo/${userId}`)
@@ -32,22 +32,6 @@ function getUserInfo() {
         });
 }
 
-function toggleProofInput() {
-    const proofInput = document.getElementById('proofInput');
-    const addProofButton = document.querySelector('#proofSection button');
-    
-    if (proofInput.style.display === 'none') {
-        proofInput.style.display = 'block';
-        addProofButton.textContent = 'Remove Proof';
-        proofAdded = true;
-    } else {
-        proofInput.style.display = 'none';
-        addProofButton.textContent = 'Add Proof';
-        proofInput.value = ''; // Clear the input when hiding
-        proofAdded = false;
-    }
-}
-
 function submitReport() {
     console.log("submitReport function called");
 
@@ -59,7 +43,7 @@ function submitReport() {
         var action = document.getElementById("action").value;
         var advice = document.getElementById("advice").value;
         var note = document.getElementById("note").value;
-        var proof = document.getElementById("proofInput").value;
+        var proof = document.getElementById("proof").value;
         var rmInput = document.getElementById("rm").value;
 
         console.log("Collected form data:", { userId, username, offence, reportedByInput, action, advice, note, proof, rmInput });
@@ -79,9 +63,7 @@ function submitReport() {
         if (action.trim()) report += `\n- Action: ${action}`;
         if (advice.trim()) report += `\n- Advice: ${advice}`;
         if (note.trim()) report += `\n- Note: ${note}`;
-        if (proofAdded) {
-            report += `\n- Proof: ${proof.trim() || ''}`;
-        }
+        if (proof.trim()) report += `\n- Proof: ${proof}`;
         if (rmFormatted.trim()) report += `\n- RM: ${rmFormatted}`;
 
         console.log("Generated report:", report);
@@ -133,6 +115,7 @@ function copyText() {
 }
 
 function clearUserId() {
+    console.log("clearUserId function called");
     document.getElementById("userIdInput").value = "";
 }
 
@@ -148,5 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } else {
         console.log("Submit button not found");
+    }
+
+    var clearButton = document.getElementById('clearUserIdButton');
+    if (clearButton) {
+        clearButton.addEventListener('click', function() {
+            console.log("Clear button clicked");
+            document.getElementById("userIdInput").value = "";
+        });
+    } else {
+        console.log("Clear button not found");
     }
 });

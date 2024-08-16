@@ -12,7 +12,7 @@
     </div>
     <div class="container">
         <input type="text" id="userIdInput" placeholder="Enter User ID">
-        <button onclick="clearUserId()">Clear User ID</button>
+        <button id="clearUserIdButton">Clear User ID</button>
         <button onclick="getUserInfo()">Get Manual Report</button>
         <textarea id="reportBox" rows="10" cols="50" placeholder="Report will appear here..."></textarea>
         <button onclick="copyText()">Copy Text</button>
@@ -38,10 +38,8 @@
             <label for="note">Note:</label>
             <textarea id="note" name="note" placeholder="Enter Note (Optional)"></textarea><br>
 
-            <div id="proofSection">
-                <button type="button" onclick="toggleProofInput()">Add Proof</button>
-                <input type="text" id="proofInput" name="proof" placeholder="Enter proof details" style="display: none;">
-            </div>
+            <label for="proof">Proof:</label>
+            <textarea id="proof" name="proof" placeholder="Enter Proof (Optional)"></textarea><br>
 
             <label for="rm">RM:</label>
             <input type="text" id="rm" name="rm" placeholder="Enter ID (Optional)"><br>
