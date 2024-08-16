@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>AUI Mod Helper</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        // Force cache refresh on page load
+        window.onload = function() {
+            if(!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="header">
@@ -17,7 +29,7 @@
         <textarea id="reportBox" rows="10" cols="50" placeholder="Report will appear here..."></textarea>
         <button onclick="copyText()">Copy Text</button>
         <button onclick="clearText()">Clear Text</button>
-        </div>
+    </div>
 
     <div id="popupForm" class="modal">
         <div class="modal-content">
@@ -39,7 +51,9 @@
             <textarea id="note" name="note" placeholder="Enter Note (Optional)"></textarea><br>
 
             <label for="proof">Proof:</label>
-            <textarea id="proof" name="proof" placeholder="Enter Proof (Optional)"></textarea><br>
+            <div id="proofSection">
+                <textarea id="proofInput" name="proof" placeholder="Enter proof details"></textarea>
+            </div>
 
             <label for="rm">RM:</label>
             <input type="text" id="rm" name="rm" placeholder="Enter ID (Optional)"><br>
@@ -49,12 +63,22 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <p>Created By: Spooky</p>
-        <p>Discord ID: 573023459907469324</p>
-        <p>For any issues contact via Discord</p>
-    </footer>
+    <button id="infoButton">ℹ️</button>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <div id="footerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFooterModal()">&times;</span>
+            <h2>About AUI Mod Helper</h2>
+            <div id="footerContent">
+                <p><strong>Version:</strong> 1.0.1</p>
+                <p><strong>Created by:</strong> Spooky</p>
+                <p><strong>Discord ID:</strong> 573023459907469324</p>
+                <p><strong>Contact:</strong> For any issues, please contact via Discord</p>
+                <p class="copyright">© 2024 AUI Mod Helper.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}?v={{ range(1, 10000) | random }}"></script>
 </body>
 </html>

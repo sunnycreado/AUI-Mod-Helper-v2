@@ -3,6 +3,11 @@ let proofAdded = false;
 
 function getUserInfo() {
     var userId = document.getElementById("userIdInput").value;
+    if (!userId.trim()) {
+        alert("Please enter a User ID");
+        return;
+    }
+
     var modal = document.getElementById("popupForm");
     var span = document.getElementsByClassName("close")[0];
 
@@ -13,7 +18,7 @@ function getUserInfo() {
     document.getElementById("rm").value = "";
     document.getElementById("reportedBy").value = "";
     document.getElementById("note").value = "";
-    document.getElementById("proof").value = "";
+    document.getElementById("proofInput").value = "";
 
     // Fetch user information to validate existence and get username
     fetch(`/userinfo/${userId}`)
@@ -23,7 +28,7 @@ function getUserInfo() {
                 window.currentUserData = data; // Store user data globally if valid
                 showPopup(); // Show popup only if data is successfully fetched
             } else {
-                alert(data.message); // Alert the user if no valid data found
+                alert(data.message || "User not found");
             }
         })
         .catch(error => {
@@ -43,7 +48,7 @@ function submitReport() {
         var action = document.getElementById("action").value;
         var advice = document.getElementById("advice").value;
         var note = document.getElementById("note").value;
-        var proof = document.getElementById("proof").value;
+        var proof = document.getElementById("proofInput").value;
         var rmInput = document.getElementById("rm").value;
 
         console.log("Collected form data:", { userId, username, offence, reportedByInput, action, advice, note, proof, rmInput });
@@ -63,7 +68,9 @@ function submitReport() {
         if (action.trim()) report += `\n- Action: ${action}`;
         if (advice.trim()) report += `\n- Advice: ${advice}`;
         if (note.trim()) report += `\n- Note: ${note}`;
-        if (proof.trim()) report += `\n- Proof: ${proof}`;
+        if (proofAdded) {
+            report += `\n- Proof: ${proof.trim() || 'Not specified'}`;
+        }
         if (rmFormatted.trim()) report += `\n- RM: ${rmFormatted}`;
 
         console.log("Generated report:", report);
@@ -119,6 +126,22 @@ function clearUserId() {
     document.getElementById("userIdInput").value = "";
 }
 
+function toggleProofInput() {
+    const proofInput = document.getElementById('proofInput');
+    const addProofButton = document.querySelector('#proofSection button');
+    
+    if (proofInput.style.display === 'none') {
+        proofInput.style.display = 'block';
+        addProofButton.textContent = 'Remove Proof';
+        proofAdded = true;
+    } else {
+        proofInput.style.display = 'none';
+        addProofButton.textContent = 'Add Proof';
+        proofInput.value = ''; // Clear the input when hiding
+        proofAdded = false;
+    }
+}
+
 // Event listener for when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed");
@@ -141,5 +164,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } else {
         console.log("Clear button not found");
+    }
+});
+
+// Add these functions to your existing script.js file
+
+function showFooterModal() {
+    console.log("showFooterModal function called");
+    var modal = document.getElementById('footerModal');
+    if (modal) {
+        modal.style.display = 'block';
+        console.log("Modal should be visible now");
+    } else {
+        console.error("Footer modal element not found");
+    }
+}
+
+function closeFooterModal() {
+    console.log("closeFooterModal function called");
+    document.getElementById('footerModal').style.display = 'none';
+}
+
+// Event listener for the info button
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
+    var infoButton = document.getElementById('infoButton');
+    if (infoButton) {
+        console.log("Info button found");
+        infoButton.addEventListener('click', function() {
+            console.log("Info button clicked");
+            showFooterModal();
+        });
+    } else {
+        console.error("Info button not found");
+    }
+
+    // Close the modal when clicking outside of it
+    window.onclick = function(event) {
+        var modal = document.getElementById('footerModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
     }
 });
