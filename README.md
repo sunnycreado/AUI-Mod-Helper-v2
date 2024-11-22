@@ -18,8 +18,7 @@ AUI Mod Helper is a web application designed to assist moderators in managing us
 - **Frontend**: HTML, CSS, JavaScript
 - **API**: Discord API
 - **Deployment**: Vercel
-- **Database**: SQLite (or specify if using another database)
-- **Version Control**: Git
+- **Version Control**: Git , GitHub Desktop
 
 
 ## Deployment
