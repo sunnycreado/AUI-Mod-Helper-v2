@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v={{ timestamp }}">
     <title>AUI Mod Helper</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <script>
-        // Force cache refresh on page load
+        // Force reload on first visit
+        if (!sessionStorage.getItem('pageLoaded')) {
+            sessionStorage.setItem('pageLoaded', 'true');
+            window.location.reload(true);
+        }
+        
+        // Clear cache on page load
         window.onload = function() {
             if(!window.location.hash) {
                 window.location = window.location + '#loaded';
@@ -80,7 +86,7 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}?v={{ range(1, 10000) | random }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}?v={{ timestamp }}"></script>
     <button id="themeToggle" aria-label="Toggle theme">
         🌓
     </button>
