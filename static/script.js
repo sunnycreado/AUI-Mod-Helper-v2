@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
+    // Set initial icon
+    updateThemeIcon(savedTheme);
+    
     if (themeToggle) {
         themeToggle.addEventListener('click', () => {
             const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -16,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
         });
     }
 
@@ -107,6 +111,13 @@ function submitReport() {
 
 function clearText() {
     document.getElementById("reportBox").value = "";
+    // Show temporary success icon
+    const clearButton = document.querySelector('button[onclick="clearText()"]');
+    const originalText = clearButton.innerHTML;
+    clearButton.innerHTML = '✓ Cleared';
+    setTimeout(() => {
+        clearButton.innerHTML = originalText;
+    }, 1000);
 }
 
 function showPopup() {
@@ -129,16 +140,23 @@ window.onclick = function(event) {
 }
 
 function copyText() {
-    var text = document.getElementById("reportBox").value; // Get the value of the text area
+    var text = document.getElementById("reportBox").value;
+    const copyButton = document.querySelector('button[onclick="copyText()"]');
+    
     if (!navigator.clipboard) {
-        alert('Clipboard API not available. Please copy manually.');
+        alert('📋 Clipboard API not available. Please copy manually.');
         return;
     }
+    
     navigator.clipboard.writeText(text).then(function() {
-        alert("Copied the text: " + text);
+        const originalText = copyButton.innerHTML;
+        copyButton.innerHTML = '✓ Copied!';
+        setTimeout(() => {
+            copyButton.innerHTML = originalText;
+        }, 1000);
     }).catch(function(err) {
         console.error('Failed to copy text: ', err);
-        alert("Failed to copy text. Please try manually.");
+        alert("❌ Failed to copy text. Please try manually.");
     });
 }
 
@@ -228,3 +246,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+// Update the theme toggle button content
+function updateThemeIcon(theme) {
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.innerHTML = theme === 'light' ? '🌙' : '☀️';
+}

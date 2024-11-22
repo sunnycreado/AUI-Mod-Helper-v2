@@ -23,43 +23,43 @@
         <h1 style="text-align: center;">AUI Mod Helper</h1>
     </div>
     <div class="container">
-        <input type="text" id="userIdInput" placeholder="Enter User ID">
-        <button id="clearUserIdButton">Clear User ID</button>
-        <button onclick="getUserInfo()">Get Manual Report</button>
+        <input type="text" id="userIdInput" placeholder="👤 Enter User ID">
+        <button id="clearUserIdButton">🗑️ Clear User ID</button>
+        <button onclick="getUserInfo()">📝 Get Manual Report</button>
         <textarea id="reportBox" rows="10" cols="50" placeholder="Report will appear here..."></textarea>
-        <button onclick="copyText()">Copy Text</button>
-        <button onclick="clearText()">Clear Text</button>
+        <button onclick="copyText()">📋 Copy Text</button>
+        <button onclick="clearText()">🗑️ Clear Text</button>
     </div>
 
     <div id="popupForm" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closePopup()">&times;</span>
+            <span class="close" onclick="closePopup()">❌</span>
 
-            <label for="offence">Offence:</label>
+            <label for="offence">🚫 Offence:</label>
             <input type="text" id="offence" name="offence" placeholder="Offence Committed"><br>
 
-            <label for="reportedBy">Reported by:</label>
+            <label for="reportedBy">👤 Reported by:</label>
             <input type="text" id="reportedBy" name="reportedBy" placeholder="Enter ID (Optional)"><br>
             
-            <label for="action">Action:</label>
+            <label for="action">⚡ Action:</label>
             <input type="text" id="action" name="action" placeholder="Action Taken"><br>
 
-            <label for="advice">Advice:</label>
+            <label for="advice">💡 Advice:</label>
             <input type="text" id="advice" name="advice" placeholder="Enter Advice (Optional)"><br>
 
-            <label for="note">Note:</label>
+            <label for="note">📝 Note:</label>
             <textarea id="note" name="note" placeholder="Enter Note (Optional)"></textarea><br>
 
             <div id="proofSection">
-                <button type="button" onclick="toggleProofInput()">Add Proof</button>
+                <button type="button" onclick="toggleProofInput()">📎 Add Proof</button>
                 <textarea id="proofInput" name="proof" placeholder="Enter proof details" style="display: none;"></textarea>
             </div>
 
-            <label for="rm">RM:</label>
+            <label for="rm">👥 RM:</label>
             <input type="text" id="rm" name="rm" placeholder="Enter ID (Optional)"><br>
             
 
-            <button type="button" onclick="submitReport()">Submit Report</button>
+            <button type="button" onclick="submitReport()">✅ Submit Report</button>
         </div>
     </div>
 
