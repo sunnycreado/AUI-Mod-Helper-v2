@@ -1,235 +1,292 @@
-html, body {
-    height: 100%;
-    width: 100%;
+:root[data-theme="light"] {
+    --bg-color: #f5f5f5;
+    --text-color: #333333;
+    --container-bg: #ffffff;
+    --input-bg: #ffffff;
+    --input-border: #e0e0e0;
+    --button-bg: #4CAF50;
+    --button-hover: #45a049;
+    --modal-bg: #ffffff;
+    --modal-text: #333333;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --container-bg: #2d2d2d;
+    --input-bg: #3d3d3d;
+    --input-border: #4d4d4d;
+    --button-bg: #4CAF50;
+    --button-hover: #45a049;
+    --modal-bg: #2d2d2d;
+    --modal-text: #e0e0e0;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    overflow: hidden; /* Prevent scrolling */
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    font-family: Arial, sans-serif; /* Improves font readability */
-    box-sizing: border-box;
-    background-color: #f5f5f5;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.3s;
 }
 
 .header {
-    width: 100%;
     text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    background-color: var(--bg-color);
 }
 
-h1 {
-    color: #333; /* Dark grey color for the title */
-    margin-top: 20px; /* Adds space above the title */
-    font-size: 1.5rem; /* Responsive font size */
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--text-color);
 }
 
 .container {
     width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    max-width: 500px;
+    padding: 25px;
+    background-color: var(--container-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+input[type="text"], 
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
     box-sizing: border-box;
-    margin-bottom: 30px; /* Adjust this value based on your footer's height */
-}
-
-input[type="text"], textarea {
-    width: 100%; /* Makes text fields take full width of the container */
-    margin: 10px 0; /* Adds vertical spacing */
-    padding: 10px; /* Padding for better touch interaction */
-    font-size: 1rem; /* Responsive font size */
-    box-sizing: border-box; /* Ensure padding is included in width */
-}
-
-button {
-    background-color: #4CAF50; /* Green background for buttons */
-    color: white; /* White text color */
-    border: none; /* Removes border */
-    padding: 12px 20px; /* Padding for easier clicking */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1rem; /* Responsive font size */
-    margin: 10px auto; /* Center buttons */
-    display: block; /* Make buttons block to take full width */
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners for buttons */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
-
-button:hover {
-    background-color: #45a049; /* Darker shade of green on hover */
-}
-
-button:disabled {
-    background-color: #ccc; /* Grey out disabled buttons */
-    color: #666;
 }
 
 textarea {
-    height: 150px; /* Increases the default height of the textarea */
+    min-height: 120px;
+    resize: vertical;
 }
 
-#infoButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #007bff;
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    background-color: var(--button-bg);
     color: white;
     border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
+    border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+#themeToggle,
+#infoButton {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    box-shadow: var(--shadow);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Ensure it's above other elements */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+    z-index: 1000;
 }
 
-#infoButton:hover {
-    background-color: #0056b3;
-    transform: scale(1.1);
+#themeToggle {
+    top: 20px;
+    right: 20px;
 }
 
+#infoButton {
+    bottom: 20px;
+    right: 20px;
+}
+
+.modal,
+#popupForm,
 #footerModal {
     display: none;
     position: fixed;
-    z-index: 1001; /* Ensure it's above the info button */
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    animation: fadeIn 0.3s;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1001;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-#footerModal .modal-content {
-    background-color: #f8f9fa;
-    margin: 15% auto;
-    padding: 30px;
-    border: 1px solid #dee2e6;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-#footerModal .modal-content h2 {
-    margin-top: 0;
-    color: #343a40;
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-}
-
-#footerModal .modal-content p {
-    margin: 10px 0;
-    color: #495057;
-    line-height: 1.6;
-}
-
-#footerModal .modal-content strong {
-    color: #343a40;
-}
-
-#footerModal .modal-content .copyright {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #6c757d;
-    text-align: center;
-}
-
-#footerModal .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    transition: color 0.3s;
-}
-
-#footerModal .close:hover,
-#footerModal .close:focus {
-    color: #343a40;
-    text-decoration: none;
-}
-
-@media (max-width: 600px) {
-    h1 {
-        font-size: 1.25rem; /* Adjust font size for small devices */
-    }
-
-    input[type="text"], textarea {
-        width: 100%; /* Full width for better use of space */
-        font-size: 1.125rem; /* Adjust font size for small devices */
-        padding: 12px; /* Increase padding for better touch interaction */
-    }
-
-    button {
-        width: 100%; /* Full width to make buttons easier to press */
-        padding: 15px; /* Adequate padding */
-        font-size: 1.125rem; /* Readable font size */
-    }
-
-    #footerModal .modal-content {
-        width: 95%; /* Full width for modal on small screens */
-        max-height: calc(100vh - 40px); /* Adjust based on your footer's height */
-        overflow-y: auto;
-    }
-}
-
-.modal {
-    display: none; /* Ensures it doesn't show by default */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4); /* Dimmed background */
+.modal.show,
+#popupForm.show,
+#footerModal.show {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Responsive width */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    background-color: var(--modal-bg);
+    color: var(--modal-text);
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-content label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.modal-content input[type="text"],
+.modal-content textarea {
+    width: 100%;
+    padding: 12px 16px;
+    margin: 0 0 20px 0;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content textarea:focus {
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    outline: none;
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    background-color: var(--button-bg);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.modal-content button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-1px);
 }
 
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.2s ease;
+    border: none;
+    opacity: 0.8;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    cursor: pointer;
+.close:hover {
+    opacity: 1;
+    background-color: var(--input-border);
+}
+
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+#proofSection {
+    margin: 20px 0;
+}
+
+#proofInput {
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        padding: 25px 20px;
+        max-height: 85vh;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+    }
+
+    .modal-content input[type="text"],
+    .modal-content textarea {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .modal-content button {
+        padding: 14px;
+        font-size: 16px;
+    }
+
+    .close {
+        right: 15px;
+        top: 15px;
+    }
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.modal.show .modal-content,
+#popupForm.show .modal-content,
+#footerModal.show .modal-content {
+    animation: modalFadeIn 0.2s ease-out forwards;
 }
