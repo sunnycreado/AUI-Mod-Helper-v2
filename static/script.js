@@ -1,5 +1,6 @@
 // Declare global variables at the top of the file
 let proofAdded = false;
+let isSubmitting = false;
 
 // Theme handling
 document.addEventListener('DOMContentLoaded', function() {
@@ -62,9 +63,17 @@ function getUserInfo() {
         });
 }
 
-function submitReport() {
-    console.log("submitReport function called");
-
+function submitReport(event) {
+    if (event) {
+        event.stopPropagation();
+    }
+    
+    if (isSubmitting) {
+        return;
+    }
+    
+    isSubmitting = true;
+    
     try {
         var userId = window.currentUserData ? window.currentUserData.userId : "Unknown ID";
         var username = window.currentUserData ? window.currentUserData.username : "Unknown User";
@@ -76,37 +85,62 @@ function submitReport() {
         var proof = document.getElementById("proofInput").value;
         var rmInput = document.getElementById("rm").value;
 
-        console.log("Collected form data:", { userId, username, offence, reportedByInput, action, advice, note, proof, rmInput });
+        const reportData = {
+            userId,
+            username,
+            offence,
+            action,
+            reportedBy: reportedByInput,
+            advice,
+            note,
+            proof: proofAdded ? proof : null,
+            rm: rmInput
+        };
 
-        // Format the Reported by ID
-        var reportedByFormatted = reportedByInput ? `<@${reportedByInput.trim()}>` : "";
+        fetch('/submit_report', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(reportData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                generateAndDisplayReport(reportData);
+            } else {
+                alert('Error saving report to database');
+            }
+        })
+        .catch(() => {
+            alert('Error saving report to database');
+        })
+        .finally(() => {
+            isSubmitting = false;
+        });
 
-        // Process the RM input to format multiple IDs
-        var rmFormatted = rmInput.split(/\s+/).filter(Boolean).map(id => `<@${id.trim()}>`).join(' ');
-
-        // Start constructing the report string with user details
-        var report = `${userId}\n${username}\n<@${userId}>\n`;
-
-        // Add details in the specified order
-        if (offence.trim()) report += `\n- Offence: ${offence}`;
-        if (reportedByFormatted) report += `\n- Reported by: ${reportedByFormatted}`;
-        if (action.trim()) report += `\n- Action: ${action}`;
-        if (advice.trim()) report += `\n- Advice: ${advice}`;
-        if (note.trim()) report += `\n- Note: ${note}`;
-        if (proofAdded && proof.trim()) {
-            report += `\n- Proof: ${proof.trim()}`;
-        }
-        if (rmFormatted.trim()) report += `\n- RM: ${rmFormatted}`;
-
-        console.log("Generated report:", report);
-
-        document.getElementById("reportBox").value = report;  // Display the report in the text box
-        document.getElementById("popupForm").style.display = "none";  // Close the modal
-
-        console.log("Report submitted and popup closed");
     } catch (error) {
-        console.error("Error in submitReport function:", error);
+        isSubmitting = false;
     }
+}
+
+function generateAndDisplayReport(reportData) {
+    // Move the existing report generation code here
+    var report = `${reportData.userId}\n${reportData.username}\n<@${reportData.userId}>\n`;
+
+    if (reportData.offence) report += `\n- Offence: ${reportData.offence}`;
+    if (reportData.reportedBy) report += `\n- Reported by: <@${reportData.reportedBy}>`;
+    if (reportData.action) report += `\n- Action: ${reportData.action}`;
+    if (reportData.advice) report += `\n- Advice: ${reportData.advice}`;
+    if (reportData.note) report += `\n- Note: ${reportData.note}`;
+    if (proofAdded && reportData.proof) report += `\n- Proof: ${reportData.proof}`;
+    if (reportData.rm) {
+        const rmFormatted = reportData.rm.split(/\s+/).filter(Boolean).map(id => `<@${id.trim()}>`).join(' ');
+        report += `\n- RM: ${rmFormatted}`;
+    }
+
+    document.getElementById("reportBox").value = report;
+    document.getElementById("popupForm").style.display = "none";
 }
 
 function clearText() {
@@ -132,12 +166,20 @@ function closePopup() {
 }
 
 // Close popup when user clicks outside of it
-window.onclick = function(event) {
-    var modal = document.getElementById('popupForm');
-    if (event.target == modal) {
-        modal.style.display = 'none';
+window.addEventListener('click', function(event) {
+    var footerModal = document.getElementById('footerModal');
+    var popupForm = document.getElementById('popupForm');
+    
+    // Handle footer modal
+    if (event.target === footerModal) {
+        footerModal.style.display = 'none';
     }
-}
+    
+    // Handle popup form
+    if (event.target === popupForm) {
+        popupForm.style.display = 'none';
+    }
+});
 
 function copyText() {
     var text = document.getElementById("reportBox").value;
@@ -184,17 +226,8 @@ function toggleProofInput() {
 // Event listener for when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed");
-    var submitButton = document.querySelector('button[onclick="submitReport()"]');
-    if (submitButton) {
-        console.log("Submit button found");
-        submitButton.addEventListener('click', function() {
-            console.log("Submit button clicked");
-            submitReport();
-        });
-    } else {
-        console.log("Submit button not found");
-    }
-
+    
+    // Only keep the clear button functionality
     var clearButton = document.getElementById('clearUserIdButton');
     if (clearButton) {
         clearButton.addEventListener('click', function() {
@@ -203,6 +236,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } else {
         console.log("Clear button not found");
+    }
+
+    var infoButton = document.getElementById('infoButton');
+    if (infoButton) {
+        infoButton.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent event bubbling
+            console.log("Info button clicked");
+            showFooterModal();
+        });
+    } else {
+        console.error("Info button not found");
     }
 });
 
@@ -223,29 +267,6 @@ function closeFooterModal() {
     console.log("closeFooterModal function called");
     document.getElementById('footerModal').style.display = 'none';
 }
-
-// Event listener for the info button
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed");
-    var infoButton = document.getElementById('infoButton');
-    if (infoButton) {
-        console.log("Info button found");
-        infoButton.addEventListener('click', function() {
-            console.log("Info button clicked");
-            showFooterModal();
-        });
-    } else {
-        console.error("Info button not found");
-    }
-
-    // Close the modal when clicking outside of it
-    window.onclick = function(event) {
-        var modal = document.getElementById('footerModal');
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-});
 
 // Update the theme toggle button content
 function updateThemeIcon(theme) {
